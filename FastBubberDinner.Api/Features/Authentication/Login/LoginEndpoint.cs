@@ -1,24 +1,25 @@
 using FastBubberDinner.Application.Services.Authentication;
 using FastBubberDinner.Contracts.Authentication;
 using FastEndpoints;
-namespace FastBubberDinner.Api.Features.Authentication.Register;
 
-public class RegisterEndpoint : Endpoint<RegisterRequest, AuthenticationResponse>
+namespace FastBubberDinner.Api.Features.Authentication.Login;
+
+public class LoginEndpoint : Endpoint<LoginRequest, AuthenticationResponse>
 {
     private readonly IAuthenticationService _authenticationService;
-    public RegisterEndpoint(IAuthenticationService authenticationService)
+    public LoginEndpoint(IAuthenticationService authenticationService)
     {
         _authenticationService = authenticationService;
     }
     public override void Configure()
     {
-        Post("/auth/register");
+        Post("/auth/login");
         AllowAnonymous();
     }
 
-    public override async Task HandleAsync(RegisterRequest request, CancellationToken cancellationToken)
+    public override async Task HandleAsync(LoginRequest request, CancellationToken cancellationToken)
     {
-        var authenticationResult = _authenticationService.Register(request.FirstName, request.LastName, request.Email, request.Password);
+        var authenticationResult = _authenticationService.Login(request.Email, request.Password);
 
         var response = new AuthenticationResponse(
             authenticationResult.User.Id,
