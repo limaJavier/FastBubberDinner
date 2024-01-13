@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <ProjectReference Include="..\FastBubberDinner.Application\FastBubberDinner.Application.csproj" />
+    <ProjectReference Include="..\FastBubberDinner.Contracts\FastBubberDinner.Contracts.csproj" />
+    <ProjectReference Include="..\FastBubberDinner.Infrastructure\FastBubberDinner.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FastEndpoints" Version="5.21.2" />
+    <PackageReference Include="FastEndpoints.Swagger" Version="5.21.2" />
+    <PackageReference Include="MySqlConnector" Version="2.3.3" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>409bc50d-0f37-4729-a4aa-a6a2d29ae8a7</UserSecretsId>
+  </PropertyGroup>
+
+</Project>
