@@ -34,6 +34,7 @@ public class ErrorHandlingMiddleware
         {
             Title = exception.Message,
             exception.Detail,
+            exception.Status
         });
 
         context.Response.ContentType = "application/json";
@@ -47,7 +48,9 @@ public class ErrorHandlingMiddleware
         var result = JsonConvert.SerializeObject(new
         {
             Title = "Internal Server Error",
-            Detail = exception.Message
+            Detail = exception.Message,
+            Status = 500
+            
         });
 
         context.Response.ContentType = "application/json";
