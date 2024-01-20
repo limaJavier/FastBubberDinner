@@ -1,3 +1,4 @@
+using FastBubberDinner.Api.Middleware;
 using FastBubberDinner.Application;
 using FastBubberDinner.Infrastructure;
 using FastEndpoints;
@@ -11,5 +12,8 @@ builder.Services.AddFastEndpoints().SwaggerDocument();
 
 var app = builder.Build();
 
-app.UseFastEndpoints().UseSwaggerGen();
+// app.UseDefaultExceptionHandler();
+app.UseMiddleware<ErrorHandlingMiddleware>();
+app.UseFastEndpoints();
+app.UseSwaggerGen();
 app.Run();

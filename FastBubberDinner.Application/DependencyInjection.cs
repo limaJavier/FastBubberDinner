@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using FastBubberDinner.Application.Services.Authentication;
-using FastBubberDinner.Application.Common.Interfaces.Persistence;
 
 namespace FastBubberDinner.Application;
 
