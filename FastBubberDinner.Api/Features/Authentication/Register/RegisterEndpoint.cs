@@ -1,14 +1,15 @@
-using FastBubberDinner.Application.Services.Authentication;
+using FastBubberDinner.Application.Authentication.Commands.Register;
 using FastBubberDinner.Contracts.Authentication;
 using FastEndpoints;
+using MediatR;
 namespace FastBubberDinner.Api.Features.Authentication.Register;
 
 public class RegisterEndpoint : Endpoint<RegisterRequest, AuthenticationResponse>
 {
-    private readonly IAuthenticationService _authenticationService;
-    public RegisterEndpoint(IAuthenticationService authenticationService)
+    private readonly ISender _mediator;
+    public RegisterEndpoint(ISender mediator)
     {
-        _authenticationService = authenticationService;
+        _mediator = mediator;
     }
     public override void Configure()
     {
@@ -18,7 +19,13 @@ public class RegisterEndpoint : Endpoint<RegisterRequest, AuthenticationResponse
 
     public override async Task HandleAsync(RegisterRequest request, CancellationToken cancellationToken)
     {
-        var authenticationResult = _authenticationService.Register(request.FirstName, request.LastName, request.Email, request.Password);
+        var registerCommand = new RegisterCommand(
+            request.FirstName,
+            request.LastName,
+            request.Email,
+            request.Password
+        );
+        var authenticationResult = await _mediator.Send(registerCommand);
 
         var response = new AuthenticationResponse(
             authenticationResult.User.Id,

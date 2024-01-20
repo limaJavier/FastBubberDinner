@@ -1,15 +1,16 @@
-using FastBubberDinner.Application.Services.Authentication;
+using FastBubberDinner.Application.Authentication.Queries.Login;
 using FastBubberDinner.Contracts.Authentication;
 using FastEndpoints;
+using MediatR;
 
 namespace FastBubberDinner.Api.Features.Authentication.Login;
 
 public class LoginEndpoint : Endpoint<LoginRequest, AuthenticationResponse>
 {
-    private readonly IAuthenticationService _authenticationService;
-    public LoginEndpoint(IAuthenticationService authenticationService)
+    private readonly ISender _mediator;
+    public LoginEndpoint(ISender mediator)
     {
-        _authenticationService = authenticationService;
+        _mediator = mediator;
     }
     public override void Configure()
     {
@@ -19,7 +20,11 @@ public class LoginEndpoint : Endpoint<LoginRequest, AuthenticationResponse>
 
     public override async Task HandleAsync(LoginRequest request, CancellationToken cancellationToken)
     {
-        var authenticationResult = _authenticationService.Login(request.Email, request.Password);
+        var loginQuery = new LoginQuery(
+            request.Email,
+            request.Password);
+
+        var authenticationResult = await _mediator.Send(loginQuery);
 
         var response = new AuthenticationResponse(
             authenticationResult.User.Id,
