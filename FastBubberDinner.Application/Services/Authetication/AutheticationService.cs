@@ -1,5 +1,7 @@
+using System.Net;
 using FastBubberDinner.Application.Common.Interfaces.Authentication;
 using FastBubberDinner.Application.Common.Interfaces.Persistence;
+using FastBubberDinner.Domain.Common.Errors;
 using FastBubberDinner.Domain.Entities;
 
 namespace FastBubberDinner.Application.Services.Authentication;
@@ -19,7 +21,7 @@ public class AuthenticationService : IAuthenticationService
     {
         // Check if user already exists
         if (_userRepository.GetUserByEmail(email) is not null)
-            throw new Exception($"User with given email: {email}, already exists");
+            throw new ServiceException("Email is already registered", status: (int)HttpStatusCode.BadRequest);
 
         // Create user (generate unique Id)
         var user = new User()
@@ -41,11 +43,11 @@ public class AuthenticationService : IAuthenticationService
     public AuthenticationResult Login(string email, string password)
     {
         // Validate user exists
-        var user = _userRepository.GetUserByEmail(email) ?? throw new Exception($"User with given email {email} was not found");
+        var user = _userRepository.GetUserByEmail(email) ?? throw new ServiceException("User was not found", status: (int)HttpStatusCode.NotFound);
 
         // Validate the password is correct
         if (user.Password != password)
-            throw new Exception("Password is not correct");
+            throw new ServiceException("Password is not correct", status: (int)HttpStatusCode.BadRequest);
 
         // Create a JWT token
         var token = _jwtTokenGenerator.GenerateToken(user);
