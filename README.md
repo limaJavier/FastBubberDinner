@@ -1,0 +1,1 @@
+*FastBubberDinner* is an web API implemented with ASP.NET, following **Clean Architecture** and **Domain Driven Desing**. It mainly uses `FastEndpoints` and `MediatR`. *FastBubberDinner* is inspired in the [*BuberDinner*](https://www.youtube.com/watch?v=fhM0V2N1GpY&list=PLzYkqgWkHPKBcDIP5gzLfASkQyTdy0t4k) project created by [Amichai Mantinband](https://github.com/amantinband).
