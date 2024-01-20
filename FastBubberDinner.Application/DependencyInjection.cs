@@ -1,5 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
-using FastBubberDinner.Application.Services.Authentication;
+using MediatR;
 
 namespace FastBubberDinner.Application;
 
@@ -7,8 +7,8 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.AddScoped<IAuthenticationService, AuthenticationService>();
-        
+        services.AddMediatR(configuration => configuration.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
+
         return services;
     }
 }

@@ -1,6 +1,6 @@
 using FastBubberDinner.Domain.Entities;
 
-namespace FastBubberDinner.Application.Services.Authentication;
+namespace FastBubberDinner.Application.Authentication.Common;
 
 public record AuthenticationResult
 (
