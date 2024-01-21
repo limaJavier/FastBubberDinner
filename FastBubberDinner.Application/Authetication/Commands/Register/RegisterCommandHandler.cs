@@ -18,22 +18,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Authentic
         _jwtTokenGenerator = jwtTokenGenerator;
         _userRepository = userRepository;
     }
-
-    public AuthenticationResult Login(string email, string password)
-    {
-        // Validate user exists
-        var user = _userRepository.GetUserByEmail(email) ?? throw new ServiceException("User was not found", status: (int)HttpStatusCode.NotFound);
-
-        // Validate the password is correct
-        if (user.Password != password)
-            throw new ServiceException("Password is not correct", status: (int)HttpStatusCode.BadRequest);
-
-        // Create a JWT token
-        var token = _jwtTokenGenerator.GenerateToken(user);
-
-        return new AuthenticationResult(user, token);
-    }
-
+    
     public async Task<AuthenticationResult> Handle(RegisterCommand command, CancellationToken cancellationToken)
     {
         // Check if user already exists asyncronously
